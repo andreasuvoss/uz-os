@@ -1,0 +1,58 @@
+title: Welcome to uz-os
+properties:
+  mode: "run-on-change"
+screens:
+  first-screen:
+    source: yafti.screen.title
+    values:
+      title: "Welcome to uz-os"
+      description: "Let us get your new system setup!"
+  can-we-clone-dotfiles:
+    source: yafti.screen.consent
+    values:
+      title: dotfiles 
+      description: |
+        Clone and activate dotfiles + enabling ulauncher
+      actions:
+        - run: | 
+            echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv;
+            mkdir -p $HOME/repos/dotfiles;
+            git clone https://github.com/andreasuvoss/dotfiles.git $HOME/repos/dotfiles;
+            stow alacritty git idea nvim starship task zellij zsh -d $HOME/repos/dotfiles -t $HOME
+            systemctl --user enable --now ulauncher
+  activate-dracula:
+    source: yafti.screen.consent
+    values:
+      title: Activate Dracula theme
+      description: |
+        Activate Dracula theme
+      actions:
+        - run: | 
+            git clone https://github.com/dracula/ulauncher.git $HOME/.config/ulauncher/user-themes/dracula-ulauncher
+            tmp=$(mktemp) && cat ~/.config/ulauncher/settings.json | jq '."hotkey-show-app" = "<Primary><Alt>Control_R" | ."render-on-screen" = "default-monitor" | ."theme-name" = "dracula"' > "$tmp" && mv -f "$tmp" ~/.config/ulauncher/settings.json
+            systemctl --user restart ulauncher
+        - run: |
+            gsettings set org.gnome.shell.extensions.user-theme name "dracula"
+            gsettings set org.gnome.desktop.interface gtk-theme "dracula"
+            gsettings set org.gnome.desktop.wm.preferences theme "dracula"
+            mkdir -p $HOME/.themes
+            mkdir -p $HOME/.local/share/themes
+            mkdir -p $HOME/.config/gtk-4.0
+            cp -r /usr/share/themes/dracula $HOME/.local/share/themes #copy for flatpaks
+            ln -sf /usr/share/themes/dracula $HOME/.themes
+            ln -sf $HOME/.themes/dracula/gtk-4.0/gtk.css $HOME/.config/gtk-4.0/gtk.css
+            ln -sf $HOME/.themes/dracula/gtk-4.0/gtk-dark.css $HOME/.config/gtk-4.0/gtk-dark.css
+            ln -sf $HOME/.themes/dracula/gtk-4.0/assets $HOME/.config/gtk-4.0/assets
+            ln -sf $HOME/.themes/dracula/assets $HOME/.config/assets
+  final-screen:
+    source: yafti.screen.title
+    values:
+      title: "All done!"
+      links:
+        # - "Run some script":
+        #     run: |
+        #       echo "hello world"
+        - "My GitHub":
+            run: /usr/bin/xdg-open https://github.com/andreasuvoss/
+      description: |
+        Thanks for trying uz-os, we hope you enjoy it!

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# SCRIPT VERSION
+SHELL_SETUP_VER=1
+SHELL_SETUP_VER_FILE="/etc/uz-os/default-shell"
+SHELL_SETUP_VER_RAN=$(cat "$SHELL_SETUP_VER_FILE")
+
+# Run script if updated
+if [[ -f $SHELL_SETUP_VER_FILE && "$SHELL_SETUP_VER" = "$SHELL_SETUP_VER_RAN" ]]; then
+  echo "Shell setup has already run. Exiting..."
+  exit 0
+fi
+
+# Setup Groups
+wheelarray=($(getent group wheel | cut -d ":" -f 4 | tr  ',' '\n'))
+for user in $wheelarray
+do
+  chsh -s $(which zsh) "$user"
+done
+
+# Prevent future executions
+echo "Writing state file"
+echo "$SHELL_SETUP_VER" > "$SHELL_SETUP_VER_FILE"

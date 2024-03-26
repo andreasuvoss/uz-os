@@ -1,0 +1,7 @@
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us+altgr-intl')]
+
+
+[org/gnome/shell/extensions/just-perfection]
+panel=false
+panel-in-overview=true

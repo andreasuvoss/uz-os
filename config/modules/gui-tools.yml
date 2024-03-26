@@ -1,0 +1,43 @@
+modules:
+  - type: script
+    scripts: 
+      - add-google-chrome-repo.sh
+
+  - type: rpm-ostree
+    optfix:
+      - google
+    install:
+      - gtk-murrine-engine
+      - google-chrome-stable
+      - alacritty
+      - ulauncher
+      - flameshot
+      - papirus-icon-theme
+      - wmctrl
+      - gnome-extensions-app
+      - gnome-shell-extension-dash-to-dock
+      - gnome-shell-extension-appindicator
+      - gnome-shell-extension-user-theme
+    remove:
+      - firefox
+      - firefox-langpacks
+      - gnome-shell-extension-background-logo
+
+  - type: default-flatpaks
+    notify: true
+    system:
+      repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
+      repo-name: flathub
+      repo-title: "Flathub (system-wide)" 
+      install:
+        - com.github.tchx84.Flatseal
+        - com.spotify.Client
+        - org.mozilla.firefox
+        - com.bitwarden.desktop
+
+  - type: script
+    scripts:
+      - google-chrome-symlink.sh
+      - install-jetbrains-toolbox.sh
+      - install-dracula.sh
+      - install-extensions.sh
