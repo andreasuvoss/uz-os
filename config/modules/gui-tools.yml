@@ -35,6 +35,14 @@ modules:
         - org.mozilla.firefox
         - com.bitwarden.desktop
 
+  - type: default-flatpaks
+    notify: true
+    system:
+     repo-url: https://nightly.gnome.org/gnome-nightly.flatpakrepo
+     repo-name: gnome-nightly
+     install:
+       - org.gnome.Ptyxis.Devel
+
   - type: script
     scripts:
       - google-chrome-symlink.sh

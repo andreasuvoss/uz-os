@@ -15,6 +15,7 @@ screens:
         Clone and activate dotfiles + enabling ulauncher
       actions:
         - run: | 
+            gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+altgr-intl')]"
             echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv;
             mkdir -p $HOME/repos/dotfiles;
             git clone https://github.com/andreasuvoss/dotfiles.git $HOME/repos/dotfiles;
