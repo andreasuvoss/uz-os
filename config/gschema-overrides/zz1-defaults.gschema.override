@@ -9,6 +9,9 @@ sources=[('xkb', 'us+altgr-intl')]
 [org.gnome.desktop.session]
 idle-delay=1200
 
+[org.freedesktop.ibus.panel.emoji]
+hotkey=[]
+
 [org.gnome.desktop.peripherals.mouse]
 accel-profile='flat'
 speed=-0.24545454545454548
