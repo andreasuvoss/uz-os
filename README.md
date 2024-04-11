@@ -5,7 +5,7 @@ It can be annoying to be required to run a GitHub action in order to test if the
 image. You can install [the blue-build CLI](https://github.com/blue-build/cli) on your machine and run the following command
 
 ```bash
-bluebuild template -o Containerfile ./config/recipe.yml && podman build . -t uz-os
+bluebuild template -o Containerfile ./config/recipe.yml && podman build . -t uz-os --pull=always
 ```
 
 Once the image has been built, you can push it to a private registry. In my case I spun up a registry locally using
